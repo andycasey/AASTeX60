@@ -1,0 +1,24 @@
+sudo: true
+
+language: python
+
+env:
+    matrix:
+        - PYTHON_VERSION=2.7
+
+install:
+ - wget https://github.com/scottkosty/install-tl-ubuntu/raw/master/install-tl-ubuntu && chmod +x ./install-tl-ubuntu
+ - sudo ./install-tl-ubuntu
+ - sudo /opt/texbin/tlmgr init-usertree
+ - sudo /opt/texbin/tlmgr update --all
+ - sudo /opt/texbin/tlmgr update unicode-math
+ - sudo /opt/texbin/tlmgr update xetex
+ - "export PATH=$PATH:/opt/texbin"
+
+script:
+    - make -C $TRAVIS_BUILD_DIR/sample
+
+notifications:
+    email:
+       on_success: change
+       on_failure: always
